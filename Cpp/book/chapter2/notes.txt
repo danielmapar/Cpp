@@ -1,0 +1,80 @@
+Special access privileges for derived classes can be provided by declaring mem- bers to be “protected.” A protected member is “public” to all classes derived from this one, but “private” to all other functions.
+
+
+If we were to destroy our student object, the Student destructor would be called first, followed by the Person destructor. Unlike constructors, the Student destructor does not need to (and is not allowed to) call the Person destructor. This happens automatically.
+
+As we saw above, C++ uses static binding by default to determine which member function to call for a derived class. Alternatively, in dynamic binding, an object’s contents determine which member function is called. To specify that a member function should use dynamic binding, the keyword “virtual” is added to the func- tion’s declaration. Let us redefine our Person and Student, but this time we will declare the print function to be virtual.
+
+In this case, pp[1] contains a pointer to an object of type Student, and by the power of dynamic binding with virtual functions, the function Student::print will be called. The decision as to which function to call is made at run-time, hence the name dynamic binding.
+
+There is no such thing as a virtual constructor. Such a concept does not make any sense. Virtual destructors, however, are very important. In our array example, since we store objects of both types Person and Student in the array, it is important that the appropriate destructor be called for each object. However, if the destructor is nonvirtual, then only the Person destructor will be called in each case. In our ex- ample, this choice is not a problem. But if the Student class had allocated memory dynamically, the fact that the wrong destructor is called would result in a memory leak (see Section 1.5.3).
+
+If a base class defines any virtual functions, it should define a virtual de- structor, even if it is empty.
+
+A pointer variable p that points to a class object that has at least one virtual function is said to be polymorphic.
+
+specialization
+	overload base class functions when needed
+extension
+	expand the derived class with new functions, besides the ones in the Base class
+
+We have been using public inheritance in our previous examples, indicated by the keyword public in specifying the base class. Remember that private base class members are not accessible in a derived class. Protected and public members of the base class become protected and public members of the derived class, respectively.
+
+C++ supports two other types of inheritance. These different types of inheritance diminish the access rights for base class members. In protected inheritance, fields declared to be public in the base class become protected in the child class. In private inheritance, fields declared to be public and protected in the base class become private in the derived class. An example is shown below.
+
+
+
+Person* pp[100];pp[0] = new Person(...);pp[1] = new Student(...);pp[1]−>changeMajor("English"); // ERROR!
+
+To access the changeMajor function, we need to cast the pp[1] pointer from type Person* to type Student*. Because the contents of a variable are dynamic, we need to use the C++ run-time system to determine whether this cast is legal, which is what a dynamic cast does. The syntax of a dynamic cast is shown below.
+
+dynamic cast < desired type > ( expression )
+
+Dynamic casting can only be applied to polymorphic objects, that is, objectsthat come from a class with at least one virtual function. Below we show how to use dynamic casting to change the major of pp[1].
+
+A class is considered polymorphic if it has at least one virtual method
+
+Student* sp = dynamic cast<Student*>(pp[1]); // cast pp[1] to Student*
+
+Dynamic casting is most often applied for casting pointers within the class hierarchy. If an illegal pointer cast is attempted, then the result is a null pointer. For example, we would get a NULL pointer from an attempt to cast pp[0] as above, since it points to a Person object.
+
+One way to handle this would be to define Shape::draw with an empty function body ({ }), which would be a rather unnatural solution. What is really desired here is some way to inform the compiler that the class Shape is abstract; it is not possible to create objects of type Shape, only its subclasses. In C++, we define a class as being abstract by specifying that one or more members of its functions are abstract, or pure virtual. A function is declared pure virtual by giving “=0” in
+
+The keyword “typename” indicates that T is the name of some type. (Older versions of C++ do not support this keyword and instead the keyword “class” must be used.) We can have other types of template parameters, integers for example, but type names are the most common. Observe that the type parameter T takes the place of “int” in the original definition of the genericMin function.
+
+The keyword “typename” indicates that T is the name of some type. (Older versions of C++ do not support this keyword and instead the keyword “class” must be used.)
+
+Note that in the declaration of xv above, we intentionally left a space after “<int>.” The reason is that without the space, the character combination “>>” would be interpreted as a bitwise right-shift operator by the compiler (see Sec- tion 1.2).
+
+
+
+class A
+{
+public:
+    int x;
+protected:
+    int y;
+private:
+    int z;
+};
+
+class B : public A
+{
+    // x is public
+    // y is protected
+    // z is not accessible from B
+};
+
+class C : protected A
+{
+    // x is protected
+    // y is protected
+    // z is not accessible from C
+};
+
+class D : private A    // 'private' is default for classes
+{
+    // x is private
+    // y is private
+    // z is not accessible from D
+};

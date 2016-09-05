@@ -1,0 +1,81 @@
+we think of data objects as instances of an abstract data type (ADT)
+
+
+Given a type T, the expression sizeof(T) returns the size of type T, expressed as some number of multiples of the size of char. For example, on typical systems, a char is 8 bits long, and an int is 32 bits long, and hence sizeof(int) is 4
+
+A variable of type float holds a single-precision floating-point number, and a vari- able of type double holds a double-precision floating-point number. As it does with integers, C++ leaves undefined the exact number of bits in each of the floating point types. By default, floating point literals, such as 3.14159 and -1234.567 are of type double. Scientific or exponential notation may by specified using either “e” or “E” to separate the mantissa from the exponent, as in 3.14E5, which means 3.14×105. To force a literal to be a float, add the suffix “f” or “F,” as in 2.0f or 1.234e-3F.It is useful to have a pointer value that points to nothing, that is, a null pointer. By convention, such a pointer is assigned the value zero. An attempt to dereference a null pointer results in a run-time error. All C++ implementations define a special symbol NULL, which is equal to zero. This definition is activated by inserting the statement “#include <cstdlib>” in the beginning of a program file.
+
+Consider the following misleading declaration.int* x, y, z; // same as: int* x; int y; int z;This declares one pointer variable x, but the other two variables are plain integers.The simplest way to avoid this confusion is to declare one variable per statement.
+
+A string literal, such as "Hello World", is represented as a fixed-length array of characters that ends with the null character. Character strings represented in this way are called C-style strings, since they were inherited from C.
+
+Since some library functions require the old C-style strings, there is a conversion function s.c str(), which returns a pointer to a C-style string.
+
+pointer name->member is equivalent to (*pointer name).member
+
+free store, for this reason. (This memory is also sometimes called heap memory, but this should not be confused with the heap data structure, which is discussed in Chapter 8.)
+
+Structures of the same type may be assigned to one another. For example, if p1 and p2 are of type Passenger, then p2 = p1 copies the elements of p1 to p2.
+
+Passenger *p;// ...p = new Passenger; p−>name = "Pocahontas"; p−>mealPref = REGULAR; p−>isFreqFlyer = false; p−>freqFlyerNo = "NONE";// p points to the new Passenger // set the structure membersIt would be natural to wonder whether we can initialize the members using the curly brace ({...}) notation used above. The answer is no, but we will see another more convenient way of initializing members when we discuss classes and constructors in Section 1.5.2.
+
+The delete operator should only be applied to objects that have been allocated through new. Since the object at p’s address was allocated using the new operator, the C++ run-time system knows how much memory to deallocate for this delete statement. 
+
+Failure to delete dynamically allocated objects can cause problems. If we were to change the (address) value of p without first deleting the structure to which it points, there would be no way for us to access this object. It would continue to exist for the lifetime of the program, using up space that could otherwise be used for other allocated objects. Having such inaccessible objects in dynamic memory is called a memory leak.
+
+Unlike pointers, which can be NULL, a reference in C++ must refer to an actual variable.When a reference is declared, its value must be initialized.Afterwards, any access to the reference is treated exactly as if it is an access to the underlying object.
+
+We can access an object x in namespace group, us- ing the notation group::x, which is called its fully qualified name. For example, myglobals::cat refers to the copy of variable cat in the myglobals namespace.
+
+class name :: member namespace name :: member bool exp ? true exp : false expclass scope resolution namespace resolution conditional expression
+
+
+stream >> var stream input stream << exp stream output
+Although they look like the bitwise shift operators, the input (>>) and output (<<) stream operators are quite different. They are examples of C++’s powerful ca- pability, called operator overloading,
+
+Let exp be some expression, and let T be a type. To cast the value of the expression to type T we can use the notation “(T)exp.” We call this a C-style cast.
+
+
+Static casting is used when a conversion is made between two related types, forexample numbers to numbers or pointers to pointers. Its syntax is given below.static cast < desired type > ( expression )
+
+bool evenSum(int a[], int n); // function declarationbool evenSum(int a[], int n) { // function definition
+ int sum = 0;for (int i = 0; i < n; i++)sum += a[i];return (sum % 2) == 0;}
+
+References are inherently const, that is you can't change what they refer to. There are 'const references' which are really 'references to const', that is you can't change the value of the object they refer to. They are declared const int& or int const& rather than int& const though.
+
+Correct:
+int const &i = j; //or Alternatively
+const int &i = j;
+
+We have discussed passing large structures and classes by reference, but what about large arrays? Would passing an array by value result in making a copy of the entire array? The answer is no. When an array is passed to a function, it is converted to a pointer to its initial element. That is, an object of type T[ ] is converted to type T*.
+
+A class consists of members. Members that are variables or constants are data members (also called member variables) and members that are functions are called member functions (also called methods). Data members may be of any type, and may even be classes themselves, or pointers or references to classes. Member func- tions typically act on the member variables, and so define the behavior of the class.
+
+scoping specifier “Counter::”.
+
+Note that if no access specifier is given, the default is private for classes and public for structures. (There is a third specifier, called protected, which is dis- cussed later in the book.)
+
+Class member functions can be placed in two major categories: accessor func- tions, which only read class data, and update functions, which may alter class data. The keyword “const” indicates that the member function isFrequentFlyer is an accessor. This informs the user of the class that this function will not change the object contents. It also allows the compiler to catch a potential error should we inadvertently attempt to modify any class member variables.
+
+The second constructor is given the values of the member variables to initialize. The third constructor is given a Passenger reference from which to copy information. This is called a copy constructor.
+
+Look carefully at the second constructor. The notation ffn="NONE" indicates that the argument for ffn is a default argument. 
+
+ IMPORTANT
+In order to deal with the issue of initializing member variables that are themselves classes, C++ provides an alter- nate method of initialization called an initializer list. This list is placed between the constructor’s argument list and its body. It consists of a colon (:) followed by a comma-separated list of the form member name(initial value). To illustrate the feature, let us rewrite the second Passenger constructor so that its first three mem- bers are initialized by an initializer list. The initializer list is executed before the body of the constructor.
+
+The declaration “Vect b=a” initializes b from a. Since we provided no copy constructor in Vect, the system uses its default, which simply copies each member of a to b. In particular it sets “b.data=a.data.” Notice that this does not copy the contents of the array; rather it copies the pointer to the array’s initial element. This default action is sometimes called a shallow copy.
+
+Fortunately, there is a simple fix for all of these problems. The problems arose because we allocated memory and we used the system’s default copy constructor and assignment operator. If a class allocates memory, you should provide a copy constructor and assignment operator to allocate new memory for making copies.
+
+Your operator== is a member of your “X” class. Member functions can access any private members of that class, not only for this, but for any instance they can access.
+
+
+Note that “friendship” is not transitive. For example, if a new class Tensor was made a friend of Matrix, Tensor would not be a friend of Vector, unless class Vector were to explicitly declare it to be so.
+
+No, there's no difference - you just tell that class B is a friend of class A and now can access its private and protected members, that's all.
+
+Nesting Classes and Types within Classes
+
+
+Initializer Lists only works for constructors
