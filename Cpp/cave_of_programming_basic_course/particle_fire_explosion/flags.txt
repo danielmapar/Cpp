@@ -1,1 +1,0 @@
- -framework SDL2 -framework Cocoa
