@@ -13,6 +13,11 @@ int main(void) {
     bob.speak();
     
     cout << bob.happy << endl;
+    
+    Cat dan;
+    dan.speak();
+    
+    cout << dan.happy << endl;
 
     return 0;
 }

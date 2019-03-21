@@ -3,6 +3,8 @@
 #include <vector>
 using namespace std;
 
+// READ THIS: https://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html
+
 class Test {
 private:
     static const int SIZE=100;

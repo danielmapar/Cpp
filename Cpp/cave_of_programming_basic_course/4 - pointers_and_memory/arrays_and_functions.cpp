@@ -37,8 +37,16 @@ void show3(string (&texts)[3]) {
 //string *getArray() {
     // Don't return pointers to local variables (stack variables)
     // address of stack memory associated with local variable 'texts' returned
-    // string texts[] = {"Demo", "Test"};
+    // string texts[] = {"Demo", "Test"}; --> NO
+    // string* texts = new string[2]; --> YES
     // return texts;
+//}
+
+//string* getArray() {
+// Don't return pointers to local variables (stack variables)
+// address of stack memory associated with local variable 'texts' returned
+// string* texts = new string[2];
+// return texts;
 //}
 
 int main(void) {
@@ -59,6 +67,7 @@ int main(void) {
     string texts[] = {"pedro", "john", "jeff"};
     
     // That should return the sum of 3 strings
+    cout << "Sizeof text is: " << sizeof(texts[0]) << endl;
     cout << "Sizeof texts inside main is: " << sizeof(texts) << endl;
     
     show3(texts);

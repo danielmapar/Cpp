@@ -38,7 +38,7 @@ int main(void) {
      Important details about exceptions:
      When we throw an exception that is an object, we should catch it by using a reference variable (Ex: string &e). Having said that, you may think that this is wrong, since the objected was created inside "mightGoWrong" and we are already out of scope "we are on main". However, the compiler treat exceptions differently and it is safe to do that. 
      Also, when we throw an exception that is an object: throw class(...)
-     we dont need to use new, because again... the compiler understands that this is an exception, and cleans the object automaticly afterwards.
+     we dont need to use new, because again... the compiler understands that this is an exception, and cleans the object automaticaly afterwards.
      */
     } catch (string &e) {
         cout << "Obj error message: " << e << endl;

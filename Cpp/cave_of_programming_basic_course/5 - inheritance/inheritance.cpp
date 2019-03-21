@@ -33,3 +33,51 @@ int main(void) {
 
     return 0;
 }
+
+
+/*
+ class A
+ {
+ public:
+ int x;
+ protected:
+ int y;
+ private:
+ int z;
+ };
+ 
+ class B : public A
+ {
+ // x is public
+ // y is protected
+ // z is not accessible from B
+ };
+ 
+ class C : protected A
+ {
+ // x is protected
+ // y is protected
+ // z is not accessible from C
+ };
+ 
+ class D : private A    // 'private' is default for classes
+ {
+ // x is private
+ // y is private
+ // z is not accessible from D
+ };
+
+ 
+ class Base {
+ public:
+ int publicMember;
+ protected:
+ int protectedMember;
+ private:
+ int privateMember;
+ };
+ 
+ Everything that is aware of Base is also aware that Base contains publicMember.
+ Only the children (and their children) are aware that Base contains protectedMember.
+ No one but Base is aware of privateMember.
+ */
